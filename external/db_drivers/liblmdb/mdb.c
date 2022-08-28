@@ -10794,19 +10794,20 @@ int mdb_dbi_open(MDB_txn *txn, const char *name, unsigned int flags, MDB_dbi *db
 int ESECT
 mdb_stat(MDB_txn *txn, MDB_dbi dbi, MDB_stat *arg)
 {
-	if (!arg || !TXN_DBI_EXIST(txn, dbi, DB_VALID))
-		return EINVAL;
-
-	if (txn->mt_flags & MDB_TXN_BLOCKED)
-		return MDB_BAD_TXN;
-
-	if (txn->mt_dbflags[dbi] & DB_STALE) {
-		MDB_cursor mc;
-		MDB_xcursor mx;
-		/* Stale, must read the DB's root. cursor_init does it for us. */
-		mdb_cursor_init(&mc, txn, dbi, &mx);
-	}
-	return mdb_stat0(txn->mt_env, &txn->mt_dbs[dbi], arg);
+	return 0;
+	// if (!arg || !TXN_DBI_EXIST(txn, dbi, DB_VALID))
+	// 	return EINVAL;
+	//
+	// if (txn->mt_flags & MDB_TXN_BLOCKED)
+	// 	return MDB_BAD_TXN;
+	//
+	// if (txn->mt_dbflags[dbi] & DB_STALE) {
+	// 	MDB_cursor mc;
+	// 	MDB_xcursor mx;
+	// 	/* Stale, must read the DB's root. cursor_init does it for us. */
+	// 	mdb_cursor_init(&mc, txn, dbi, &mx);
+	// }
+	// return mdb_stat0(txn->mt_env, &txn->mt_dbs[dbi], arg);
 }
 
 void mdb_dbi_close(MDB_env *env, MDB_dbi dbi)
